@@ -16,4 +16,49 @@ CHIP RAM8 {
 
     PARTS:
     // Put your code here:
+    Not(in=address[0], out=notsel0);
+    Not(in=address[1], out=notsel1);
+    Not(in=address[2], out=notsel2);
+    // Register 000
+    And(a=notsel0, b=notsel1, out=and0);
+    And(a=and0, b=notsel2, out=sel0);
+    And(a=sel0, b=load, out=add0);
+    Register (in=in, load=add0, out=reg1);
+    // Register 001
+    And(a=address[0], b=notsel1, out=and1);
+    And(a=and1, b=notsel2, out=sel1);
+    And(a=sel1, b=load, out=add1);
+    Register (in=in, load=add1, out=reg2);
+    // Register 010
+    And(a=notsel0, b=address[1], out=and2);
+    And(a=and2, b=notsel2, out=sel2);
+    And(a=sel2, b=load, out=add2);
+    Register (in=in, load=add2, out=reg3);
+    // Register 011
+    And(a=address[0], b=address[1], out=and3);
+    And(a=and3, b=notsel2, out=sel3);
+    And(a=sel3, b=load, out=add3);
+    Register (in=in, load=add3, out=reg4);
+    // Register 100
+    And(a=notsel0, b=notsel1, out=and4);
+    And(a=and4, b=address[2], out=sel4);
+    And(a=sel4, b=load, out=add4);
+    Register (in=in, load=add4, out=reg5);
+    // Register 101
+    And(a=address[0], b=notsel1, out=and5);
+    And(a=and5, b=address[2], out=sel5);
+    And(a=sel5, b=load, out=add5);
+    Register (in=in, load=add5, out=reg6);
+    // Register 110
+    And(a=notsel0, b=address[1], out=and6);
+    And(a=and6, b=address[2], out=sel6);
+    And(a=sel6, b=load, out=add6);
+    Register (in=in, load=add6, out=reg7);
+    // Register 111
+    And(a=address[0], b=address[1], out=and7);
+    And(a=and7, b=address[2], out=sel7);
+    And(a=sel7, b=load, out=add7);
+    Register (in=in, load=add7, out=reg8);
+
+    Mux8Way16(a=reg1, b=reg2, c=reg3, d=reg4, e=reg5, f=reg6, g=reg7, h=reg8, sel=address, out=out);
 }
