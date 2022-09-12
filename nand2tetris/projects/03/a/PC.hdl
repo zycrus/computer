@@ -17,4 +17,16 @@ CHIP PC {
 
     PARTS:
     // Put your code here:
+    // Increment
+    Inc16(in=regOut, out=incOut);
+    Mux16 (a=in, b=incOut, sel=inc, out=incSelect);
+
+    // LOAD
+    Mux16 (a=incSelect, b=in, sel=load, out=loadOut);
+
+    // RESET
+    Mux16 (a=loadOut, b[0..15]=false, sel=reset, out=rstOut);
+
+    // REGISTER
+    Register(in=rstOut, load=true, out=out, out=regOut);
 }

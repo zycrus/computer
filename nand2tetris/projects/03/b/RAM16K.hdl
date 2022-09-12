@@ -16,4 +16,25 @@ CHIP RAM16K {
 
     PARTS:
     // Put your code here:
+    
+    Not(in=address[12], out=notsel0);
+    Not(in=address[13], out=notsel1);
+    // RAM 000
+    And(a=notsel0, b=notsel1, out=and0);
+    And(a=and0, b=load, out=add0);
+    RAM4K (in=in, load=add0, address=address[0..11], out=ram0);
+    // RAM 001
+    And(a=address[12], b=notsel1, out=and1);
+    And(a=and1, b=load, out=add1);
+    RAM4K (in=in, load=add1, address=address[0..11], out=ram1);
+    // RAM 010
+    And(a=notsel0, b=address[13], out=and2);
+    And(a=and2, b=load, out=add2);
+    RAM4K (in=in, load=add2, address=address[0..11], out=ram2);
+    // RAM 011
+    And(a=address[12], b=address[13], out=and3);
+    And(a=and3, b=load, out=add3);
+    RAM4K (in=in, load=add3, address=address[0..11], out=ram3);
+    
+    Mux4Way16(a=ram0, b=ram1, c=ram2, d=ram3, sel=address[12..13], out=out);
 }
