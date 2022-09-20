@@ -17,11 +17,11 @@ M=0
 
 (LOOP)
 @counter
-D=M+1
+D=M
 @R1
 D=D-M
 @STOP
-D;JGT
+D;JEQ
 
 @R0
 D=M
